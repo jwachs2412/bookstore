@@ -47,15 +47,28 @@ function avgBookPrice(books) {
     // Another simplier solution; eliminates avgPrice variable
     // console.log(`The average price per book is: $${(total / numOfBooks).toFixed(2)}`);
 }
-function restockBook(books, bookToFind, quantityInStock) {
-    const book = books.find(b => b[0] === bookToFind);
+// Function for Restocking Books
+function restockBook(books, bookToFind, quantityToAdd) {
+    const book = books.find(([title]) => title === bookToFind);
     if (book) {
-        book[1] += quantityInStock;
+        book[1] += quantityToAdd; // directly mutates quantityInStock
     }
     else {
         console.log(`Book not found: "${bookToFind}".`);
     }
     return books;
+}
+// Function for a MarkDown Sale
+function markDownSale(books, qualifyingPrice, discountAmt) {
+    let markedDownBooks = [];
+    for (let i = 0; i < books.length; i++) {
+        const book = books[i];
+        if (book && book[2] > qualifyingPrice) {
+            book[3] = discountAmt;
+            markedDownBooks.push(book);
+        }
+    }
+    return markedDownBooks;
 }
 // Generic function being used below
 function filterItems(arr, predicate) {
@@ -77,10 +90,13 @@ function lastEl(el) {
     return el[el.length - 1];
 }
 console.log(lastEl(bookCollection));
-bookInfo(bookCollection);
 avgBookPrice(bookCollection);
+bookInfo(bookCollection);
 // console.log((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 console.log(`Total inventory value: $${totalValue(bookCollection).toFixed(2)}`);
 console.log(restockBook(bookCollection, "Programming TypeScript", 5));
 console.log(restockBook(bookCollection, "Hello World", 8));
+console.log(markDownSale(bookCollection, 30, 0.2));
+console.log(markDownSale(bookCollection, 18, 0.25));
+bookInfo(bookCollection);
 //# sourceMappingURL=index.js.map

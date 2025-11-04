@@ -2,12 +2,12 @@
 //If you want to push this a bit further later:
 Object.defineProperty(exports, "__esModule", { value: true });
 const bookCollection = [
-    ["Learning TypeScript", 25, 29.95, .15],
+    ["Learning TypeScript", 25, 29.95, 0.15],
     ["TypeScript Quickly", 33, 34.95],
-    ["Programming TypeScript", 2, 19.95, .10],
-    ["TypeScript Deep Dive", 0, 38.50],
-    ["Getting Started with TypeScript", 99, 10.99, .10],
-    ["TypeScript Cookbook", 3, 15.99, .15]
+    ["Programming TypeScript", 2, 19.95, 0.1],
+    ["TypeScript Deep Dive", 0, 38.5],
+    ["Getting Started with TypeScript", 99, 10.99, 0.1],
+    ["TypeScript Cookbook", 3, 15.99, 0.15]
 ];
 // Get total of single book with discount included; helper function
 function getBookTotal(book) {
@@ -31,7 +31,6 @@ function bookInfo(books) {
         console.log(`"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${discount ? "(discount: " + discount * 100 + "%)" : ""} -> Total: $${total.toFixed(2)}`);
     }
 }
-;
 // Average Price per Book
 function avgBookPrice(books) {
     let total = 0;
@@ -48,11 +47,20 @@ function avgBookPrice(books) {
     // Another simplier solution; eliminates avgPrice variable
     // console.log(`The average price per book is: $${(total / numOfBooks).toFixed(2)}`);
 }
+function restockBook(books, bookToFind, quantityInStock) {
+    const book = books.find(b => b[0] === bookToFind);
+    if (book) {
+        book[1] += quantityInStock;
+    }
+    else {
+        console.log(`Book not found: "${bookToFind}".`);
+    }
+    return books;
+}
 // Generic function being used below
 function filterItems(arr, predicate) {
     return arr.filter(predicate);
 }
-;
 // Generic function as an arrow function
 // const filterItems = <T>(arr: T[], predicate: (item: T) => boolean): T[] => arr.filter(predicate);
 // Books over $20
@@ -73,4 +81,6 @@ bookInfo(bookCollection);
 avgBookPrice(bookCollection);
 // console.log((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 console.log(`Total inventory value: $${totalValue(bookCollection).toFixed(2)}`);
+console.log(restockBook(bookCollection, "Programming TypeScript", 5));
+console.log(restockBook(bookCollection, "Hello World", 8));
 //# sourceMappingURL=index.js.map

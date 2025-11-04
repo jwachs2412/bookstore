@@ -105,12 +105,12 @@ console.log("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, fal
 // Sort by Stock
 function sortByStock(books, ascending) {
     const newBooksArray = [...books];
-    if (ascending === true) {
-        newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1]);
-    }
-    else {
-        newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1]);
-    }
+    //   if (ascending === true) {
+    //     newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1])
+    //   } else {
+    //     newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1])
+    //   }
+    ascending === true ? newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1]) : newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1]);
     return newBooksArray;
 }
 console.log("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true));

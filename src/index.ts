@@ -120,11 +120,7 @@ function lastEl<T>(el: Array<T>): T | undefined {
 function sortByPrice(books: Book[], ascending: boolean): Book[] {
   const newBooksArray = [...books]
 
-  if (ascending === true) {
-    newBooksArray.sort((priceA, priceB) => priceA[2] - priceB[2])
-  } else {
-    newBooksArray.sort((priceA, priceB) => priceB[2] - priceA[2])
-  }
+  ascending === true ? newBooksArray.sort((priceA, priceB) => priceA[2] - priceB[2]) : newBooksArray.sort((priceA, priceB) => priceB[2] - priceA[2])
 
   return newBooksArray
 }
@@ -135,11 +131,7 @@ console.log("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, fal
 function sortByStock(books: Book[], ascending: boolean): Book[] {
   const newBooksArray = [...books]
 
-  if (ascending === true) {
-    newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1])
-  } else {
-    newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1])
-  }
+  ascending === true ? newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1]) : newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1])
 
   return newBooksArray
 }

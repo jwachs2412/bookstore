@@ -102,11 +102,11 @@ function filterItems<T>(arr: T[], predicate: (item: T) => boolean): T[] {
 
 // Books over $20
 const booksOverTwenty = filterItems<Book>(bookCollection, item => item[2] > 20)
-console.log(booksOverTwenty)
+console.log("\nBooks over $20:\n", booksOverTwenty)
 
 // Books out of Stock
 const booksOutOfStock = filterItems<Book>(bookCollection, item => item[1] == 0)
-console.log(booksOutOfStock)
+console.log("\nBooks out of stock:\n", booksOutOfStock)
 
 // Return last book in list
 function lastEl<T>(el: Array<T>): T | undefined {
@@ -115,6 +115,37 @@ function lastEl<T>(el: Array<T>): T | undefined {
   }
   return el[el.length - 1]
 }
+
+// Sort by Price
+function sortByPrice(books: Book[], ascending: boolean): Book[] {
+  const newBooksArray = [...books]
+
+  if (ascending === true) {
+    newBooksArray.sort((priceA, priceB) => priceA[2] - priceB[2])
+  } else {
+    newBooksArray.sort((priceA, priceB) => priceB[2] - priceA[2])
+  }
+
+  return newBooksArray
+}
+console.log("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true))
+console.log("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, false))
+
+// Sort by Stock
+function sortByStock(books: Book[], ascending: boolean): Book[] {
+  const newBooksArray = [...books]
+
+  if (ascending === true) {
+    newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1])
+  } else {
+    newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1])
+  }
+
+  return newBooksArray
+}
+console.log("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true))
+console.log("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false))
+
 console.log(lastEl(bookCollection))
 
 avgBookPrice(bookCollection)
@@ -122,7 +153,7 @@ avgBookPrice(bookCollection)
 bookInfo(bookCollection)
 
 // console.log((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
-console.log(`Total inventory value: $${totalValue(bookCollection).toFixed(2)}`)
+console.log(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`)
 
 console.log(restockBook(bookCollection, "Programming TypeScript", 5))
 console.log(restockBook(bookCollection, "Hello World", 8))

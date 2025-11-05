@@ -192,14 +192,25 @@ function showDashboard(books: Book[]): void {
   let dashboardPrompt = true
 
   while (dashboardPrompt) {
-    const choice: string = prompt("Please enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
+    const choice: string = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
     console.log(`You chose: ${choice}`)
 
     if (Number(choice) === 1) {
-      console.log("You are now being shown the dashboard...\n\n")
-      console.log("\n========================================\n")
+      console.log("You are now being shown the dashboard...\n")
+      console.log("========================================\n")
       console.log("         📊 BOOKSTORE DASHBOARD\n")
       console.log("========================================\n")
+
+      //   books.forEach(([title, quantityInStock]) => {
+      //     if(quantityInStock > 0){
+      //         return books.map(t => {
+
+      //         })
+      //     }
+      //   })
+      console.log(`Current Number of Titles in Stock: ${books.length}\n`)
+
+      console.log(`The Total Value of Current Inventory is: $${totalValue(bookCollection).toFixed(2)}\n`)
     } else if (Number(choice) === 2) {
       console.log("You are now exiting the dashboard...")
       dashboardPrompt = false

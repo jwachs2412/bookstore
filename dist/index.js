@@ -135,21 +135,31 @@ avgBookPrice(bookCollection);
 bookInfo(bookCollection);
 // console.log((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 console.log(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`);
-console.log(restockBook(bookCollection, "Programming TypeScript", 5));
-console.log(restockBook(bookCollection, "Hello World", 8));
-console.log(markDownSale(bookCollection, 30, 0.2));
-console.log(markDownSale(bookCollection, 18, 0.25));
-bookInfo(bookCollection);
+// console.log(restockBook(bookCollection, "Programming TypeScript", 5))
+// console.log(restockBook(bookCollection, "Hello World", 8))
+// console.log(markDownSale(bookCollection, 30, 0.2))
+// console.log(markDownSale(bookCollection, 18, 0.25))
+// bookInfo(bookCollection)
 function showDashboard(books) {
-    const choice = prompt("Please enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ");
-    console.log(`You chose: ${choice}`);
-    if (Number(choice) === 1) {
-        console.log("\n========================================\n");
-        console.log("         📊 BOOKSTORE DASHBOARD\n");
-        console.log("========================================\n");
-    }
-    else {
-        return;
+    let dashboardPrompt = true;
+    while (dashboardPrompt) {
+        const choice = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ");
+        console.log(`You chose: ${choice}`);
+        if (Number(choice) === 1) {
+            console.log("You are now being shown the dashboard...\n");
+            console.log("========================================\n");
+            console.log("         📊 BOOKSTORE DASHBOARD\n");
+            console.log("========================================\n");
+            console.log(`Current Number of Titles in Stock: ${books.length}\n`);
+            console.log(`The Total Value of Current Inventory is: $${totalValue(bookCollection).toFixed(2)}\n`);
+        }
+        else if (Number(choice) === 2) {
+            console.log("You are now exiting the dashboard...");
+            dashboardPrompt = false;
+        }
+        else {
+            console.log("Invalid choice. You must choose 1 or 2.\n");
+        }
     }
 }
 showDashboard(bookCollection);

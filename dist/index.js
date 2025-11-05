@@ -1,6 +1,5 @@
-"use strict";
-//If you want to push this a bit further later:
-Object.defineProperty(exports, "__esModule", { value: true });
+import promptSync from "prompt-sync";
+const prompt = promptSync();
 const bookCollection = [
     ["Learning TypeScript", 25, 29.95, 0.15],
     ["TypeScript Quickly", 33, 34.95],
@@ -141,7 +140,17 @@ console.log(restockBook(bookCollection, "Hello World", 8));
 console.log(markDownSale(bookCollection, 30, 0.2));
 console.log(markDownSale(bookCollection, 18, 0.25));
 bookInfo(bookCollection);
-console.log("\n========================================\n");
-console.log("         📊 BOOKSTORE DASHBOARD\n");
-console.log("========================================\n");
+function showDashboard(books) {
+    const choice = prompt("Please enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ");
+    console.log(`You chose: ${choice}`);
+    if (Number(choice) === 1) {
+        console.log("\n========================================\n");
+        console.log("         📊 BOOKSTORE DASHBOARD\n");
+        console.log("========================================\n");
+    }
+    else {
+        return;
+    }
+}
+showDashboard(bookCollection);
 //# sourceMappingURL=index.js.map

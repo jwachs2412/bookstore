@@ -1,3 +1,7 @@
+import promptSync from "prompt-sync"
+
+const prompt = promptSync()
+
 //If you want to push this a bit further later:
 
 // Add sorting: e.g. by price or stock.
@@ -184,7 +188,24 @@ console.log(markDownSale(bookCollection, 18, 0.25))
 
 bookInfo(bookCollection)
 
-console.log("\n========================================\n")
-console.log("         📊 BOOKSTORE DASHBOARD\n")
-console.log("========================================\n")
-function showDashboard(books: Book[]): void {}
+function showDashboard(books: Book[]): void {
+  let dashboardPrompt = true
+
+  while (dashboardPrompt) {
+    const choice: string = prompt("Please enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
+    console.log(`You chose: ${choice}`)
+
+    if (Number(choice) === 1) {
+      console.log("You are now being shown the dashboard...\n\n")
+      console.log("\n========================================\n")
+      console.log("         📊 BOOKSTORE DASHBOARD\n")
+      console.log("========================================\n")
+    } else if (Number(choice) === 2) {
+      console.log("You are now exiting the dashboard...")
+      dashboardPrompt = false
+    } else {
+      console.log("Invalid choice. You must choose 1 or 2.\n")
+    }
+  }
+}
+showDashboard(bookCollection)

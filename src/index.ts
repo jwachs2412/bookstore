@@ -122,6 +122,13 @@ function filterItems<T>(arr: T[], predicate: (item: T) => boolean): T[] {
 // Generic function as an arrow function
 // const filterItems = <T>(arr: T[], predicate: (item: T) => boolean): T[] => arr.filter(predicate);
 
+// Function to Detect Low Stock
+const getLowStockBooks = filterItems<Book>(bookCollection, item => item[1] < 10)
+console.log("\nBooks with Low Stock:")
+getLowStockBooks.forEach(([title, quantityInStock]) => {
+  console.log(`"${title}" -- only ${quantityInStock} left in stock!`)
+})
+
 // Books over $20
 const booksOverTwenty = filterItems<Book>(bookCollection, item => item[2] > 20)
 console.log("\nBooks over $20:\n", booksOverTwenty)
@@ -176,3 +183,8 @@ console.log(markDownSale(bookCollection, 30, 0.2))
 console.log(markDownSale(bookCollection, 18, 0.25))
 
 bookInfo(bookCollection)
+
+console.log("\n========================================\n")
+console.log("         📊 BOOKSTORE DASHBOARD\n")
+console.log("========================================\n")
+function showDashboard(books: Book[]): void {}

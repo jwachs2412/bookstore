@@ -31,6 +31,26 @@ function bookInfo(books) {
         console.log(`"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${discount ? "(discount: " + discount * 100 + "%)" : ""} -> Total: $${total.toFixed(2)}`);
     }
 }
+// Get each book's info - .forEach()
+// function bookInfo(books: Book[]) {
+//   books.forEach((currentBook) => {
+//     const { discountedPrice, total, discount } = getBookTotal(currentBook);
+//     console.log(
+//       `"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${
+//         discount ? "(discount: " + discount * 100 + "%)" : ""
+//       } -> Total: $${total.toFixed(2)}`
+//     );
+//   });
+// }
+// Get each book's info - .map()
+// function bookInfo(books: Book[]) {
+//   return books.map((currentBook) => {
+//     const { discountedPrice, total, discount } = getBookTotal(currentBook);
+//     return `"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${
+//       discount ? "(discount: " + discount * 100 + "%)" : ""
+//     } -> Total: $${total.toFixed(2)}`;
+//   });
+// }
 // Average Price per Book
 function avgBookPrice(books) {
     let total = 0;
@@ -76,6 +96,12 @@ function filterItems(arr, predicate) {
 }
 // Generic function as an arrow function
 // const filterItems = <T>(arr: T[], predicate: (item: T) => boolean): T[] => arr.filter(predicate);
+// Function to Detect Low Stock
+const getLowStockBooks = filterItems(bookCollection, item => item[1] < 10);
+console.log("\nBooks with Low Stock:");
+getLowStockBooks.forEach(([title, quantityInStock]) => {
+    console.log(`"${title}" -- only ${quantityInStock} left in stock!`);
+});
 // Books over $20
 const booksOverTwenty = filterItems(bookCollection, item => item[2] > 20);
 console.log("\nBooks over $20:\n", booksOverTwenty);
@@ -92,12 +118,7 @@ function lastEl(el) {
 // Sort by Price
 function sortByPrice(books, ascending) {
     const newBooksArray = [...books];
-    if (ascending === true) {
-        newBooksArray.sort((priceA, priceB) => priceA[2] - priceB[2]);
-    }
-    else {
-        newBooksArray.sort((priceA, priceB) => priceB[2] - priceA[2]);
-    }
+    ascending === true ? newBooksArray.sort((priceA, priceB) => priceA[2] - priceB[2]) : newBooksArray.sort((priceA, priceB) => priceB[2] - priceA[2]);
     return newBooksArray;
 }
 console.log("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true));
@@ -105,11 +126,6 @@ console.log("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, fal
 // Sort by Stock
 function sortByStock(books, ascending) {
     const newBooksArray = [...books];
-    //   if (ascending === true) {
-    //     newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1])
-    //   } else {
-    //     newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1])
-    //   }
     ascending === true ? newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1]) : newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1]);
     return newBooksArray;
 }
@@ -125,4 +141,7 @@ console.log(restockBook(bookCollection, "Hello World", 8));
 console.log(markDownSale(bookCollection, 30, 0.2));
 console.log(markDownSale(bookCollection, 18, 0.25));
 bookInfo(bookCollection);
+console.log("\n========================================\n");
+console.log("         📊 BOOKSTORE DASHBOARD\n");
+console.log("========================================\n");
 //# sourceMappingURL=index.js.map

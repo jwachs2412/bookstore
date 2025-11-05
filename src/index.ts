@@ -46,6 +46,28 @@ function bookInfo(books: Book[]) {
   }
 }
 
+// Get each book's info - .forEach()
+// function bookInfo(books: Book[]) {
+//   books.forEach((currentBook) => {
+//     const { discountedPrice, total, discount } = getBookTotal(currentBook);
+//     console.log(
+//       `"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${
+//         discount ? "(discount: " + discount * 100 + "%)" : ""
+//       } -> Total: $${total.toFixed(2)}`
+//     );
+//   });
+// }
+
+// Get each book's info - .map()
+// function bookInfo(books: Book[]) {
+//   return books.map((currentBook) => {
+//     const { discountedPrice, total, discount } = getBookTotal(currentBook);
+//     return `"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${
+//       discount ? "(discount: " + discount * 100 + "%)" : ""
+//     } -> Total: $${total.toFixed(2)}`;
+//   });
+// }
+
 // Average Price per Book
 function avgBookPrice(books: Book[]) {
   let total: number = 0

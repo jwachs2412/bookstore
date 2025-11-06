@@ -1,18 +1,18 @@
 import promptSync from "prompt-sync";
 const prompt = promptSync();
 const bookCollection = [
-    ["Learning TypeScript", 25, 29.95, 0.15],
-    ["TypeScript Quickly", 33, 34.95],
-    ["Programming TypeScript", 2, 19.95, 0.1],
-    ["TypeScript Deep Dive", 0, 38.5],
-    ["Getting Started with TypeScript", 99, 10.99, 0.1],
-    ["TypeScript Cookbook", 3, 15.99, 0.15]
+    { title: "Learning TypeScript", quantityInStock: 25, pricePerBook: 29.95, discount: 0.15 },
+    { title: "TypeScript Quickly", quantityInStock: 33, pricePerBook: 34.95 },
+    { title: "Programming TypeScript", quantityInStock: 2, pricePerBook: 19.95, discount: 0.1 },
+    { title: "TypeScript Deep Dive", quantityInStock: 0, pricePerBook: 38.5 },
+    { title: "Getting Started with TypeScript", quantityInStock: 99, pricePerBook: 10.99, discount: 0.1 },
+    { title: "TypeScript Cookbook", quantityInStock: 3, pricePerBook: 15.99, discount: 0.15 }
 ];
 // Get total of single book with discount included; helper function
 function getBookTotal(book) {
-    const discount = book[3] ?? 0;
-    const discountedPrice = book[2] * (1 - discount);
-    const total = book[1] * discountedPrice;
+    const discount = book.discount ?? 0;
+    const discountedPrice = book.pricePerBook * (1 - discount);
+    const total = book.quantityInStock * discountedPrice;
     return { discountedPrice, total, discount };
 }
 // Get total value of book collection
@@ -27,7 +27,7 @@ const totalValue = (books) => {
 function bookInfo(books) {
     for (const currentBook of books) {
         const { discountedPrice, total, discount } = getBookTotal(currentBook);
-        consoleLogItem(`"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${discount ? "(discount: " + discount * 100 + "%)" : ""} -> Total: $${total.toFixed(2)}`);
+        consoleLogItem(`"${currentBook.title}" - ${currentBook.quantityInStock} copies at ${discountedPrice.toFixed(2)} each ${discount ? "(discount: " + discount * 100 + "%)" : ""} -> Total: $${total.toFixed(2)}`);
     }
 }
 // Get each book's info - .forEach()
@@ -35,7 +35,7 @@ function bookInfo(books) {
 //   books.forEach((currentBook) => {
 //     const { discountedPrice, total, discount } = getBookTotal(currentBook);
 //     consoleLogItem(
-//       `"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${
+//       `"${currentBook.title}" - ${currentBook.quantityInStock} copies at ${discountedPrice.toFixed(2)} each ${
 //         discount ? "(discount: " + discount * 100 + "%)" : ""
 //       } -> Total: $${total.toFixed(2)}`
 //     );
@@ -45,7 +45,7 @@ function bookInfo(books) {
 // function bookInfo(books: Book[]) {
 //   return books.map((currentBook) => {
 //     const { discountedPrice, total, discount } = getBookTotal(currentBook);
-//     return `"${currentBook[0]}" - ${currentBook[1]} copies at ${discountedPrice.toFixed(2)} each ${
+//     return `"${currentBook.title}" - ${currentBook.quantityInStock} copies at ${discountedPrice.toFixed(2)} each ${
 //       discount ? "(discount: " + discount * 100 + "%)" : ""
 //     } -> Total: $${total.toFixed(2)}`;
 //   });
@@ -56,7 +56,7 @@ function avgBookPrice(books) {
     let numOfBooks = 0;
     let avgPrice = 0;
     for (const currentBook of books) {
-        numOfBooks += currentBook[1];
+        numOfBooks += currentBook.quantityInStock;
         total += getBookTotal(currentBook).total;
     }
     // consoleLogItem(total.toFixed(2));
@@ -68,9 +68,9 @@ function avgBookPrice(books) {
 }
 // Function for Restocking Books
 function restockBook(books, bookToFind, quantityToAdd) {
-    const book = books.find(([title]) => title === bookToFind);
+    const book = books.find(({ title }) => title === bookToFind);
     if (book) {
-        book[1] += quantityToAdd; // directly mutates quantityInStock
+        book.quantityInStock += quantityToAdd; // directly mutates quantityInStock
     }
     else {
         consoleLogItem(`Book not found: "${bookToFind}".`);
@@ -82,8 +82,8 @@ function markDownSale(books, qualifyingPrice, discountAmt) {
     let markedDownBooks = [];
     for (let i = 0; i < books.length; i++) {
         const book = books[i];
-        if (book && book[2] > qualifyingPrice) {
-            book[3] = discountAmt;
+        if (book && book.pricePerBook > qualifyingPrice) {
+            book.discount = discountAmt;
             markedDownBooks.push(book);
         }
     }
@@ -105,16 +105,16 @@ function filterItems(arr, predicate) {
 // Generic function as an arrow function
 // const filterItems = <T>(arr: T[], predicate: (item: T) => boolean): T[] => arr.filter(predicate);
 // Function to Detect Low Stock
-const getLowStockBooks = filterItems(bookCollection, item => item[1] < 10);
+const getLowStockBooks = filterItems(bookCollection, item => item.quantityInStock < 10);
 consoleLogItem("\nBooks with Low Stock:");
-getLowStockBooks.forEach(([title, quantityInStock]) => {
+getLowStockBooks.forEach(({ title, quantityInStock }) => {
     consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`);
 });
 // Books over $20
-const booksOverTwenty = filterItems(bookCollection, item => item[2] > 20);
+const booksOverTwenty = filterItems(bookCollection, item => item.pricePerBook > 20);
 consoleLogItem("\nBooks over $20:\n", booksOverTwenty);
 // Books out of Stock
-const booksOutOfStock = filterItems(bookCollection, item => item[1] == 0);
+const booksOutOfStock = filterItems(bookCollection, item => item.quantityInStock == 0);
 consoleLogItem("\nBooks out of stock:\n", booksOutOfStock);
 // Return last book in list
 function lastEl(el) {
@@ -126,7 +126,7 @@ function lastEl(el) {
 // Sort by Price
 function sortByPrice(books, ascending) {
     const newBooksArray = [...books];
-    ascending === true ? newBooksArray.sort((priceA, priceB) => priceA[2] - priceB[2]) : newBooksArray.sort((priceA, priceB) => priceB[2] - priceA[2]);
+    ascending === true ? newBooksArray.sort((priceA, priceB) => priceA.pricePerBook - priceB.pricePerBook) : newBooksArray.sort((priceA, priceB) => priceB.pricePerBook - priceA.pricePerBook);
     return newBooksArray;
 }
 consoleLogItem("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true));
@@ -134,13 +134,13 @@ consoleLogItem("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, 
 // Sort by Stock
 function sortByStock(books, ascending) {
     const newBooksArray = [...books];
-    ascending === true ? newBooksArray.sort((stockA, stockB) => stockA[1] - stockB[1]) : newBooksArray.sort((stockA, stockB) => stockB[1] - stockA[1]);
+    ascending === true ? newBooksArray.sort((stockA, stockB) => stockA.quantityInStock - stockB.quantityInStock) : newBooksArray.sort((stockA, stockB) => stockB.quantityInStock - stockA.quantityInStock);
     return newBooksArray;
 }
 consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true));
 consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false));
 consoleLogItem(lastEl(bookCollection));
-avgBookPrice(bookCollection);
+// avgBookPrice(bookCollection)
 bookInfo(bookCollection);
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`);
@@ -148,6 +148,7 @@ consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
 consoleLogItem(restockBook(bookCollection, "Hello World", 8));
 consoleLogItem(markDownSale(bookCollection, 30, 0.2));
 consoleLogItem(markDownSale(bookCollection, 18, 0.25));
+// Calling the book collection after markdown sale posted above
 bookInfo(bookCollection);
 function showDashboard(books) {
     let dashboardPrompt = true;
@@ -160,7 +161,7 @@ function showDashboard(books) {
             consoleLogItem("========================================\n");
             consoleLogItem("         📊 BOOKSTORE DASHBOARD\n");
             consoleLogItem("========================================\n");
-            books.forEach(([, quantityInStock]) => {
+            books.forEach(({ quantityInStock }) => {
                 if (quantityInStock > 0) {
                     booksInStock += 1;
                 }
@@ -168,7 +169,7 @@ function showDashboard(books) {
             consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`);
             consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`);
             consoleLogItem("⚠️  Books low in stock:");
-            getLowStockBooks.forEach(([title, quantityInStock]) => {
+            getLowStockBooks.forEach(({ title, quantityInStock }) => {
                 consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`);
             });
             avgBookPrice(bookCollection);

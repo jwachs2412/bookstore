@@ -98,15 +98,30 @@ function avgBookPrice(books: Book[]) {
 
 // Function for Restocking Books
 function restockBook(books: Book[], bookToFind: string, quantityToAdd: number): Book[] {
-  const book = books.find(({ title }) => title === bookToFind)
+  //   const book = books.find(({ title }) => title === bookToFind)
+  let bookFound = false
 
-  if (book) {
-    book.quantityInStock += quantityToAdd // directly mutates quantityInStock
-  } else {
-    consoleLogItem(`Book not found: "${bookToFind}".`)
+  const updatedBooks = books.map(book => {
+    if (book.title === bookToFind) {
+      bookFound = true
+      return { ...book, quantityInStock: book.quantityInStock + quantityToAdd }
+    }
+    return book
+  })
+
+  if (!bookFound) {
+    consoleLogItem(`Book not found: "${bookToFind}."`)
   }
 
-  return books
+  return updatedBooks
+
+  //   if (book) {
+  //     book.quantityInStock += quantityToAdd // directly mutates quantityInStock
+  //   } else {
+  //     consoleLogItem(`Book not found: "${bookToFind}."`)
+  //   }
+
+  //   return books
 }
 
 // Function for a MarkDown Sale

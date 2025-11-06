@@ -68,14 +68,25 @@ function avgBookPrice(books) {
 }
 // Function for Restocking Books
 function restockBook(books, bookToFind, quantityToAdd) {
-    const book = books.find(({ title }) => title === bookToFind);
-    if (book) {
-        book.quantityInStock += quantityToAdd; // directly mutates quantityInStock
+    //   const book = books.find(({ title }) => title === bookToFind)
+    let bookFound = false;
+    const updatedBooks = books.map(book => {
+        if (book.title === bookToFind) {
+            bookFound = true;
+            return { ...book, quantityInStock: book.quantityInStock + quantityToAdd };
+        }
+        return book;
+    });
+    if (!bookFound) {
+        consoleLogItem(`Book not found: "${bookToFind}."`);
     }
-    else {
-        consoleLogItem(`Book not found: "${bookToFind}".`);
-    }
-    return books;
+    return updatedBooks;
+    //   if (book) {
+    //     book.quantityInStock += quantityToAdd // directly mutates quantityInStock
+    //   } else {
+    //     consoleLogItem(`Book not found: "${bookToFind}."`)
+    //   }
+    //   return books
 }
 // Function for a MarkDown Sale
 function markDownSale(books, qualifyingPrice, discountAmt) {

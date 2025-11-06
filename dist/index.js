@@ -62,7 +62,7 @@ function avgBookPrice(books) {
     // consoleLogItem(total.toFixed(2));
     // consoleLogItem(numOfBooks);
     avgPrice = total / numOfBooks;
-    consoleLogItem(`The average price per book is: $${avgPrice.toFixed(2)}`);
+    consoleLogItem(`\n🏷️  Average price per book is: $${avgPrice.toFixed(2)}\n`);
     // Another simplier solution; eliminates avgPrice variable
     // consoleLogItem(`The average price per book is: $${(total / numOfBooks).toFixed(2)}`);
 }
@@ -89,6 +89,7 @@ function markDownSale(books, qualifyingPrice, discountAmt) {
     }
     return markedDownBooks;
 }
+// Generic function for console.log()
 function consoleLogItem(arg, optionalArg) {
     if (optionalArg !== undefined) {
         console.log(arg, optionalArg);
@@ -97,7 +98,7 @@ function consoleLogItem(arg, optionalArg) {
         console.log(arg);
     }
 }
-// Generic function being used below
+// Generic function being used for filtering items below
 function filterItems(arr, predicate) {
     return arr.filter(predicate);
 }
@@ -151,6 +152,7 @@ bookInfo(bookCollection);
 function showDashboard(books) {
     let dashboardPrompt = true;
     while (dashboardPrompt) {
+        let booksInStock = 0;
         const choice = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ");
         consoleLogItem(`You chose: ${choice}`);
         if (Number(choice) === 1) {
@@ -158,14 +160,18 @@ function showDashboard(books) {
             consoleLogItem("========================================\n");
             consoleLogItem("         📊 BOOKSTORE DASHBOARD\n");
             consoleLogItem("========================================\n");
-            //   books.forEach(([title, quantityInStock]) => {
-            //     if(quantityInStock > 0){
-            //         return books.map(t => {
-            //         })
-            //     }
-            //   })
-            consoleLogItem(`Current Number of Titles in Stock: ${books.length}\n`);
-            consoleLogItem(`The Total Value of Current Inventory is: $${totalValue(bookCollection).toFixed(2)}\n`);
+            books.forEach(([, quantityInStock]) => {
+                if (quantityInStock > 0) {
+                    booksInStock += 1;
+                }
+            });
+            consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`);
+            consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`);
+            consoleLogItem("⚠️  Books low in stock:");
+            getLowStockBooks.forEach(([title, quantityInStock]) => {
+                consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`);
+            });
+            avgBookPrice(bookCollection);
         }
         else if (Number(choice) === 2) {
             consoleLogItem("You are now exiting the dashboard...");

@@ -86,7 +86,7 @@ function avgBookPrice(books: Book[]) {
   // consoleLogItem(total.toFixed(2));
   // consoleLogItem(numOfBooks);
   avgPrice = total / numOfBooks
-  consoleLogItem(`The average price per book is: $${avgPrice.toFixed(2)}`)
+  consoleLogItem(`\n🏷️  Average price per book is: $${avgPrice.toFixed(2)}\n`)
   // Another simplier solution; eliminates avgPrice variable
   // consoleLogItem(`The average price per book is: $${(total / numOfBooks).toFixed(2)}`);
 }
@@ -182,7 +182,7 @@ consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, 
 
 consoleLogItem(lastEl(bookCollection))
 
-avgBookPrice(bookCollection)
+// avgBookPrice(bookCollection)
 
 bookInfo(bookCollection)
 
@@ -195,12 +195,14 @@ consoleLogItem(restockBook(bookCollection, "Hello World", 8))
 consoleLogItem(markDownSale(bookCollection, 30, 0.2))
 consoleLogItem(markDownSale(bookCollection, 18, 0.25))
 
+// Calling the book collection after markdown sale posted above
 bookInfo(bookCollection)
 
 function showDashboard(books: Book[]): void {
   let dashboardPrompt = true
 
   while (dashboardPrompt) {
+    let booksInStock: number = 0
     const choice: string = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
     consoleLogItem(`You chose: ${choice}`)
 
@@ -210,16 +212,22 @@ function showDashboard(books: Book[]): void {
       consoleLogItem("         📊 BOOKSTORE DASHBOARD\n")
       consoleLogItem("========================================\n")
 
-      //   books.forEach(([title, quantityInStock]) => {
-      //     if(quantityInStock > 0){
-      //         return books.map(t => {
+      books.forEach(([, quantityInStock]) => {
+        if (quantityInStock > 0) {
+          booksInStock += 1
+        }
+      })
 
-      //         })
-      //     }
-      //   })
-      consoleLogItem(`Current Number of Titles in Stock: ${books.length}\n`)
+      consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`)
 
-      consoleLogItem(`The Total Value of Current Inventory is: $${totalValue(bookCollection).toFixed(2)}\n`)
+      consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
+
+      consoleLogItem("⚠️  Books low in stock:")
+      getLowStockBooks.forEach(([title, quantityInStock]) => {
+        consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
+      })
+
+      avgBookPrice(bookCollection)
     } else if (Number(choice) === 2) {
       consoleLogItem("You are now exiting the dashboard...")
       dashboardPrompt = false

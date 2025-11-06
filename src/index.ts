@@ -55,6 +55,9 @@ function bookInfo(books: Book[]) {
   }
 }
 
+consoleLogItem("\nBook Collection pre-Markdown Sale Prices:")
+bookInfo(bookCollection)
+
 // Get each book's info - .forEach()
 // function bookInfo(books: Book[]) {
 //   books.forEach((currentBook) => {
@@ -95,6 +98,9 @@ function avgBookPrice(books: Book[]) {
   // Another simplier solution; eliminates avgPrice variable
   // consoleLogItem(`The average price per book is: $${(total / numOfBooks).toFixed(2)}`);
 }
+
+// Can be found in showDashboard function below
+// avgBookPrice(bookCollection)
 
 // Function for Restocking Books
 function restockBook(books: Book[], bookToFind: string, quantityToAdd: number): Book[] {
@@ -153,6 +159,9 @@ function markDownSale(books: Book[], qualifyingPrice: number, discountAmt: numbe
 consoleLogItem("\nBooks On Sale:")
 consoleLogItem(markDownSale(bookCollection, 30, 0.2))
 consoleLogItem(markDownSale(bookCollection, 18, 0.25))
+// Calling the book collection after markdown sale posted above
+consoleLogItem("\nBook Collection after Markdown Sale Implemented:")
+bookInfo(bookCollection)
 
 // Generic function for console.log()
 function consoleLogItem<T, U = unknown>(arg: T, optionalArg?: U): void {
@@ -193,6 +202,9 @@ function lastEl<T>(el: Array<T>): T | undefined {
   return el[el.length - 1]
 }
 
+consoleLogItem("\nLast item in the Book Collection:")
+consoleLogItem(lastEl(bookCollection))
+
 // Sort by Price
 function sortByPrice(books: Book[], ascending: boolean): Book[] {
   const newBooksArray = [...books]
@@ -215,18 +227,10 @@ function sortByStock(books: Book[], ascending: boolean): Book[] {
 consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true))
 consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false))
 
-consoleLogItem(lastEl(bookCollection))
-
-// avgBookPrice(bookCollection)
-
-bookInfo(bookCollection)
-
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`)
 
-// Calling the book collection after markdown sale posted above
-bookInfo(bookCollection)
-
+// Show Dashboard or Exit
 function showDashboard(books: Book[]): void {
   let dashboardPrompt = true
 

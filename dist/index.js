@@ -30,6 +30,8 @@ function bookInfo(books) {
         consoleLogItem(`"${currentBook.title}" - ${currentBook.quantityInStock} copies at ${discountedPrice.toFixed(2)} each ${discount ? "(discount: " + discount * 100 + "%)" : ""} -> Total: $${total.toFixed(2)}`);
     }
 }
+consoleLogItem("\nBook Collection pre-Markdown Sale Prices:");
+bookInfo(bookCollection);
 // Get each book's info - .forEach()
 // function bookInfo(books: Book[]) {
 //   books.forEach((currentBook) => {
@@ -66,6 +68,8 @@ function avgBookPrice(books) {
     // Another simplier solution; eliminates avgPrice variable
     // consoleLogItem(`The average price per book is: $${(total / numOfBooks).toFixed(2)}`);
 }
+// Can be found in showDashboard function below
+// avgBookPrice(bookCollection)
 // Function for Restocking Books
 function restockBook(books, bookToFind, quantityToAdd) {
     //   const book = books.find(({ title }) => title === bookToFind)
@@ -88,18 +92,33 @@ function restockBook(books, bookToFind, quantityToAdd) {
     //   }
     //   return books
 }
+consoleLogItem("\nBooks to Restock:");
+consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
+consoleLogItem(restockBook(bookCollection, "Hello World", 8));
 // Function for a MarkDown Sale
 function markDownSale(books, qualifyingPrice, discountAmt) {
     let markedDownBooks = [];
-    for (let i = 0; i < books.length; i++) {
-        const book = books[i];
+    //   for (let i = 0; i < books.length; i++) {
+    //     const book = books[i]
+    //     if (book && book.pricePerBook > qualifyingPrice) {
+    //       book.discount = discountAmt
+    //       markedDownBooks.push(book)
+    //     }
+    //   }
+    books.forEach(book => {
         if (book && book.pricePerBook > qualifyingPrice) {
             book.discount = discountAmt;
             markedDownBooks.push(book);
         }
-    }
+    });
     return markedDownBooks;
 }
+consoleLogItem("\nBooks On Sale:");
+consoleLogItem(markDownSale(bookCollection, 30, 0.2));
+consoleLogItem(markDownSale(bookCollection, 18, 0.25));
+// Calling the book collection after markdown sale posted above
+consoleLogItem("\nBook Collection after Markdown Sale Implemented:");
+bookInfo(bookCollection);
 // Generic function for console.log()
 function consoleLogItem(arg, optionalArg) {
     if (optionalArg !== undefined) {
@@ -134,6 +153,8 @@ function lastEl(el) {
     }
     return el[el.length - 1];
 }
+consoleLogItem("\nLast item in the Book Collection:");
+consoleLogItem(lastEl(bookCollection));
 // Sort by Price
 function sortByPrice(books, ascending) {
     const newBooksArray = [...books];
@@ -150,17 +171,9 @@ function sortByStock(books, ascending) {
 }
 consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true));
 consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false));
-consoleLogItem(lastEl(bookCollection));
-// avgBookPrice(bookCollection)
-bookInfo(bookCollection);
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`);
-consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
-consoleLogItem(restockBook(bookCollection, "Hello World", 8));
-consoleLogItem(markDownSale(bookCollection, 30, 0.2));
-consoleLogItem(markDownSale(bookCollection, 18, 0.25));
-// Calling the book collection after markdown sale posted above
-bookInfo(bookCollection);
+// Show Dashboard or Exit
 function showDashboard(books) {
     let dashboardPrompt = true;
     while (dashboardPrompt) {

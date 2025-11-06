@@ -124,20 +124,35 @@ function restockBook(books: Book[], bookToFind: string, quantityToAdd: number): 
   //   return books
 }
 
+consoleLogItem("\nBooks to Restock:")
+consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5))
+consoleLogItem(restockBook(bookCollection, "Hello World", 8))
+
 // Function for a MarkDown Sale
 function markDownSale(books: Book[], qualifyingPrice: number, discountAmt: number): Book[] {
-  let markedDownBooks = []
+  let markedDownBooks: Book[] = []
 
-  for (let i = 0; i < books.length; i++) {
-    const book = books[i]
+  //   for (let i = 0; i < books.length; i++) {
+  //     const book = books[i]
+  //     if (book && book.pricePerBook > qualifyingPrice) {
+  //       book.discount = discountAmt
+  //       markedDownBooks.push(book)
+  //     }
+  //   }
+
+  books.forEach(book => {
     if (book && book.pricePerBook > qualifyingPrice) {
       book.discount = discountAmt
       markedDownBooks.push(book)
     }
-  }
+  })
 
   return markedDownBooks
 }
+
+consoleLogItem("\nBooks On Sale:")
+consoleLogItem(markDownSale(bookCollection, 30, 0.2))
+consoleLogItem(markDownSale(bookCollection, 18, 0.25))
 
 // Generic function for console.log()
 function consoleLogItem<T, U = unknown>(arg: T, optionalArg?: U): void {
@@ -208,12 +223,6 @@ bookInfo(bookCollection)
 
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`)
-
-consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5))
-consoleLogItem(restockBook(bookCollection, "Hello World", 8))
-
-consoleLogItem(markDownSale(bookCollection, 30, 0.2))
-consoleLogItem(markDownSale(bookCollection, 18, 0.25))
 
 // Calling the book collection after markdown sale posted above
 bookInfo(bookCollection)

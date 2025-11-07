@@ -172,24 +172,35 @@ function sortBy(arr, key, ascending) {
     return newArray;
 }
 // Sort by Price
-const sortByPrice2 = sortBy(bookCollection, "pricePerBook", true);
-consoleLogItem("Here is sortbyPrice2: \n");
-consoleLogItem(sortByPrice2);
-function sortByPrice(books, ascending) {
-    const newBooksArray = [...books];
-    ascending === true ? newBooksArray.sort((priceA, priceB) => priceA.pricePerBook - priceB.pricePerBook) : newBooksArray.sort((priceA, priceB) => priceB.pricePerBook - priceA.pricePerBook);
-    return newBooksArray;
-}
-consoleLogItem("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true));
-consoleLogItem("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, false));
+// function sortByPrice(books: Book[], ascending: boolean): Book[] {
+//   const newBooksArray = [...books]
+//   ascending === true ? newBooksArray.sort((priceA, priceB) => priceA.pricePerBook - priceB.pricePerBook) : newBooksArray.sort((priceA, priceB) => priceB.pricePerBook - priceA.pricePerBook)
+//   return newBooksArray
+// }
+// consoleLogItem("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true))
+// consoleLogItem("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, false))
+// Sort by Price Using Generic sortBy Function
+const sortByPriceUsingGenericFunction2 = sortBy(bookCollection, "pricePerBook", false);
+consoleLogItem("Descending Sort by Price using Generic Function (sortBy): \n");
+consoleLogItem(sortByPriceUsingGenericFunction2);
+const sortByPriceUsingGenericFunction = sortBy(bookCollection, "pricePerBook", true);
+consoleLogItem("Asending Sort by Price using Generic Function (sortBy): \n");
+consoleLogItem(sortByPriceUsingGenericFunction);
 // Sort by Stock
-function sortByStock(books, ascending) {
-    const newBooksArray = [...books];
-    ascending === true ? newBooksArray.sort((stockA, stockB) => stockA.quantityInStock - stockB.quantityInStock) : newBooksArray.sort((stockA, stockB) => stockB.quantityInStock - stockA.quantityInStock);
-    return newBooksArray;
-}
-consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true));
-consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false));
+// function sortByStock(books: Book[], ascending: boolean): Book[] {
+//   const newBooksArray = [...books]
+//   ascending === true ? newBooksArray.sort((stockA, stockB) => stockA.quantityInStock - stockB.quantityInStock) : newBooksArray.sort((stockA, stockB) => stockB.quantityInStock - stockA.quantityInStock)
+//   return newBooksArray
+// }
+// consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true))
+// consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false))
+// Sort by Stock Using Generic sortBy Function
+const sortByStockUsingGenericFunction = sortBy(bookCollection, "quantityInStock", false);
+consoleLogItem("Descending Sort by Stock using Generic Function (sortBy): \n");
+consoleLogItem(sortByStockUsingGenericFunction);
+const sortByStockUsingGenericFunction2 = sortBy(bookCollection, "quantityInStock", true);
+consoleLogItem("Ascending Sort by Stock using Generic Function (sortBy): \n");
+consoleLogItem(sortByStockUsingGenericFunction2);
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`);
 // Show Dashboard or Exit

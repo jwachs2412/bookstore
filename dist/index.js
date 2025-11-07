@@ -92,7 +92,7 @@ function restockBook(books, bookToFind, quantityToAdd) {
         return book;
     });
     if (!bookFound) {
-        consoleLogItem(`Book not found: "${bookToFind}."`);
+        consoleLogItem(`\nBook not found: "${bookToFind}."\n`);
     }
     return updatedBooks;
     //   if (book) {
@@ -102,7 +102,7 @@ function restockBook(books, bookToFind, quantityToAdd) {
     //   }
     //   return books
 }
-consoleLogItem("\nBooks to Restock:");
+consoleLogItem("\nBook collection after restock:");
 consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
 consoleLogItem(restockBook(bookCollection, "Hello World", 8));
 // Function for a MarkDown Sale
@@ -115,16 +115,18 @@ function markDownSale(books, qualifyingPrice, discountAmt) {
     //       markedDownBooks.push(book)
     //     }
     //   }
-    books.forEach(book => {
-        if (book && book.pricePerBook > qualifyingPrice) {
-            book.discount = discountAmt;
-            markedDownBooks.push(book);
-        }
-    });
-    return markedDownBooks;
+    return books.map(book => (book.pricePerBook > qualifyingPrice ? { ...book, discountAmt } : book));
+    //   books.forEach(book => {
+    //     if (book && book.pricePerBook > qualifyingPrice) {
+    //       book.discount = discountAmt
+    //       markedDownBooks.push(book)
+    //     }
+    //   })
+    //   return markedDownBooks
 }
-consoleLogItem("\nBooks On Sale:");
+consoleLogItem("\nBooks Marked Down Sale if under $30:");
 consoleLogItem(markDownSale(bookCollection, 30, 0.2));
+consoleLogItem("\nBooks Marked Down Sale if under $18:");
 consoleLogItem(markDownSale(bookCollection, 18, 0.25));
 // Calling the book collection after markdown sale posted above
 consoleLogItem("\nBook Collection after Markdown Sale Implemented:");

@@ -149,7 +149,7 @@ consoleLogItem(restockBook(bookCollection, "Hello World", 8))
 
 // Function for a MarkDown Sale
 function markDownSale(books: Book[], qualifyingPrice: number, discountAmt: number): Book[] {
-  let markedDownBooks: Book[] = []
+  //   let markedDownBooks: Book[] = []
 
   //   for (let i = 0; i < books.length; i++) {
   //     const book = books[i]

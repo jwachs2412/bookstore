@@ -218,27 +218,54 @@ function lastEl<T>(el: Array<T>): T | undefined {
 consoleLogItem("\nLast item in the Book Collection:")
 consoleLogItem(lastEl(bookCollection))
 
-// Sort by Price
-function sortByPrice(books: Book[], ascending: boolean): Book[] {
-  const newBooksArray = [...books]
+// Generic function for sorting
+function sortBy<T>(arr: T[], key: keyof T, ascending: boolean): T[] {
+  const newArray = [...arr]
 
-  ascending === true ? newBooksArray.sort((priceA, priceB) => priceA.pricePerBook - priceB.pricePerBook) : newBooksArray.sort((priceA, priceB) => priceB.pricePerBook - priceA.pricePerBook)
+  ascending === true ? newArray.sort((bookProp1, bookProp2) => (bookProp1[key] as number) - (bookProp2[key] as number)) : newArray.sort((bookProp1, bookProp2) => (bookProp2[key] as number) - (bookProp1[key] as number))
 
-  return newBooksArray
+  return newArray
 }
-consoleLogItem("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true))
-consoleLogItem("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, false))
+
+// Sort by Price
+// function sortByPrice(books: Book[], ascending: boolean): Book[] {
+//   const newBooksArray = [...books]
+
+//   ascending === true ? newBooksArray.sort((priceA, priceB) => priceA.pricePerBook - priceB.pricePerBook) : newBooksArray.sort((priceA, priceB) => priceB.pricePerBook - priceA.pricePerBook)
+
+//   return newBooksArray
+// }
+// consoleLogItem("\nSorted by Price (Ascending):\n", sortByPrice(bookCollection, true))
+// consoleLogItem("\nSorted by Price (Descending):\n", sortByPrice(bookCollection, false))
+
+// Sort by Price Using Generic sortBy Function
+const sortByPriceUsingGenericFunction2 = sortBy<Book>(bookCollection, "pricePerBook", false)
+consoleLogItem("Descending Sort by Price using Generic Function (sortBy): \n")
+consoleLogItem(sortByPriceUsingGenericFunction2)
+
+const sortByPriceUsingGenericFunction = sortBy<Book>(bookCollection, "pricePerBook", true)
+consoleLogItem("Asending Sort by Price using Generic Function (sortBy): \n")
+consoleLogItem(sortByPriceUsingGenericFunction)
 
 // Sort by Stock
-function sortByStock(books: Book[], ascending: boolean): Book[] {
-  const newBooksArray = [...books]
+// function sortByStock(books: Book[], ascending: boolean): Book[] {
+//   const newBooksArray = [...books]
 
-  ascending === true ? newBooksArray.sort((stockA, stockB) => stockA.quantityInStock - stockB.quantityInStock) : newBooksArray.sort((stockA, stockB) => stockB.quantityInStock - stockA.quantityInStock)
+//   ascending === true ? newBooksArray.sort((stockA, stockB) => stockA.quantityInStock - stockB.quantityInStock) : newBooksArray.sort((stockA, stockB) => stockB.quantityInStock - stockA.quantityInStock)
 
-  return newBooksArray
-}
-consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true))
-consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false))
+//   return newBooksArray
+// }
+// consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true))
+// consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false))
+
+// Sort by Stock Using Generic sortBy Function
+const sortByStockUsingGenericFunction = sortBy<Book>(bookCollection, "quantityInStock", false)
+consoleLogItem("Descending Sort by Stock using Generic Function (sortBy): \n")
+consoleLogItem(sortByStockUsingGenericFunction)
+
+const sortByStockUsingGenericFunction2 = sortBy<Book>(bookCollection, "quantityInStock", true)
+consoleLogItem("Ascending Sort by Stock using Generic Function (sortBy): \n")
+consoleLogItem(sortByStockUsingGenericFunction2)
 
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`)

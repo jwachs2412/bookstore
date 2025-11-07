@@ -58,7 +58,6 @@ function summarizeBook(book) {
         return "\nBook does not exist...\n";
     const { discountedPrice, discount } = getBookTotal(book);
     return discount ? `\n"${book.title}" -- $${book.pricePerBook.toFixed(2)} ($${discountedPrice.toFixed(2)} after ${discount * 100}% discount), ${book.quantityInStock} in stock` : `\n"${book.title}" -- $${book.pricePerBook.toFixed(2)}, ${book.quantityInStock} in stock`;
-    //   return summary
 }
 consoleLogItem(summarizeBook(bookCollection[0]));
 consoleLogItem(summarizeBook(bookCollection[1]));
@@ -166,7 +165,16 @@ function lastEl(el) {
 }
 consoleLogItem("\nLast item in the Book Collection:");
 consoleLogItem(lastEl(bookCollection));
+// Generic function for sorting
+function sortBy(arr, key, ascending) {
+    const newArray = [...arr];
+    ascending === true ? newArray.sort((bookProp1, bookProp2) => bookProp1[key] - bookProp2[key]) : newArray.sort((bookProp1, bookProp2) => bookProp2[key] - bookProp1[key]);
+    return newArray;
+}
 // Sort by Price
+const sortByPrice2 = sortBy(bookCollection, "pricePerBook", true);
+consoleLogItem("Here is sortbyPrice2: \n");
+consoleLogItem(sortByPrice2);
 function sortByPrice(books, ascending) {
     const newBooksArray = [...books];
     ascending === true ? newBooksArray.sort((priceA, priceB) => priceA.pricePerBook - priceB.pricePerBook) : newBooksArray.sort((priceA, priceB) => priceB.pricePerBook - priceA.pricePerBook);

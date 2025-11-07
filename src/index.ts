@@ -13,7 +13,7 @@ const prompt = promptSync()
 // Add tests using a test framework (Vitest or Jest).
 
 interface Book {
-  title: string
+  readonly title: string
   quantityInStock: number
   pricePerBook: number
   discount?: number
@@ -79,6 +79,19 @@ bookInfo(bookCollection)
 //     } -> Total: $${total.toFixed(2)}`;
 //   });
 // }
+
+// Book Summary
+function summarizeBook(book?: Book): string {
+  if (!book) return "\nBook does not exist...\n"
+
+  const { discountedPrice, discount } = getBookTotal(book)
+
+  return discount ? `\n"${book.title}" -- $${book.pricePerBook.toFixed(2)} ($${discountedPrice.toFixed(2)} after ${discount * 100}% discount), ${book.quantityInStock} in stock` : `\n"${book.title}" -- $${book.pricePerBook.toFixed(2)}, ${book.quantityInStock} in stock`
+}
+
+consoleLogItem(summarizeBook(bookCollection[0]))
+consoleLogItem(summarizeBook(bookCollection[1]))
+consoleLogItem(summarizeBook(bookCollection[8]))
 
 // Average Price per Book
 function avgBookPrice(books: Book[]) {

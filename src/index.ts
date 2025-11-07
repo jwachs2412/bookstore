@@ -171,9 +171,9 @@ function markDownSale(books: Book[], qualifyingPrice: number, discountAmt: numbe
   //   return markedDownBooks
 }
 
-consoleLogItem("\nBooks Marked Down Sale if under $30:")
+consoleLogItem("\nBooks Marked Down for Sale if under $30:")
 consoleLogItem(markDownSale(bookCollection, 30, 0.2))
-consoleLogItem("\nBooks Marked Down Sale if under $18:")
+consoleLogItem("\nBooks Marked Down for Sale if under $18:")
 consoleLogItem(markDownSale(bookCollection, 18, 0.25))
 // Calling the book collection after markdown sale posted above
 consoleLogItem("\nBook Collection after Markdown Sale Implemented:")

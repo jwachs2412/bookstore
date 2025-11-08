@@ -154,7 +154,6 @@ const booksOverTwenty = filterItems(bookCollection, item => item.pricePerBook > 
 consoleLogItem("\nBooks over $20:\n", booksOverTwenty);
 // Books out of Stock
 const booksOutOfStock = filterItems(bookCollection, item => item.quantityInStock == 0);
-consoleLogItem("\nBooks out of stock:\n", booksOutOfStock);
 function filterByPrice() {
     let operandString = "";
     const priceToFilter = prompt("Enter a number for your price comparison: ");
@@ -241,7 +240,7 @@ function showDashboard(books) {
             consoleLogItem("         📊 BOOKSTORE DASHBOARD\n");
             consoleLogItem("========================================\n");
             while (dashboardMenu) {
-                process.stdout.write("\nWhat would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Filter By Price 6. Exit): \n");
+                process.stdout.write("\nWhat would you like to view (enter the corresponding number)? \n1. Total Titles in Stock \n2. Total Inventory Value \n3. Books Low in Stock \n4. Average Book Price \n5. Filter By Price \n6. Books Out of Stock \n7. Exit\nYour Choice: ");
                 const dashboardMenuChoice = prompt("");
                 let booksInStock = 0;
                 books.forEach(({ quantityInStock }) => {
@@ -275,6 +274,9 @@ function showDashboard(books) {
                         break;
                     }
                     case "6": {
+                        consoleLogItem("\nBooks out of stock:\n", booksOutOfStock);
+                    }
+                    case "7": {
                         console.log("Exiting the Bookstore Dashboard Menu");
                         dashboardMenu = false;
                         break;

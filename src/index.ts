@@ -272,12 +272,12 @@ consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2
 
 // Show Dashboard or Exit
 function showDashboard(books: Book[]): void {
-  let dashboardPrompt = true
+  let dashboardPrompt: boolean = true
+  const choice: string = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
+  consoleLogItem(`You chose: ${choice}`)
 
   while (dashboardPrompt) {
     let booksInStock: number = 0
-    const choice: string = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
-    consoleLogItem(`You chose: ${choice}`)
 
     if (Number(choice) === 1) {
       consoleLogItem("You are now being shown the dashboard...\n")
@@ -291,16 +291,22 @@ function showDashboard(books: Book[]): void {
         }
       })
 
-      consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`)
+      const dashboardMenuChoice = prompt("What would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Exit): \n")
 
-      consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
-
-      consoleLogItem("⚠️  Books low in stock:")
-      getLowStockBooks.forEach(({ title, quantityInStock }) => {
-        consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
-      })
-
-      avgBookPrice(bookCollection)
+      if (dashboardMenuChoice === "1") {
+        consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`)
+      } else if (dashboardMenuChoice === "2") {
+        consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
+      } else if (dashboardMenuChoice === "3") {
+        consoleLogItem("⚠️  Books low in stock:")
+        getLowStockBooks.forEach(({ title, quantityInStock }) => {
+          consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
+        })
+      } else if (dashboardMenuChoice === "4") {
+        avgBookPrice(bookCollection)
+      } else {
+        return
+      }
     } else if (Number(choice) === 2) {
       consoleLogItem("You are now exiting the dashboard...")
       dashboardPrompt = false

@@ -148,7 +148,7 @@ consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5))
 consoleLogItem(restockBook(bookCollection, "Hello World", 8))
 
 // Function for a MarkDown Sale
-function markDownSale(books: Book[], qualifyingPrice: number, discountAmt: number): Book[] {
+function markDownSale(books: Book[], qualifyingPrice: number, discount: number): Book[] {
   //   let markedDownBooks: Book[] = []
 
   //   for (let i = 0; i < books.length; i++) {
@@ -159,7 +159,7 @@ function markDownSale(books: Book[], qualifyingPrice: number, discountAmt: numbe
   //     }
   //   }
 
-  return books.map(book => (book.pricePerBook > qualifyingPrice ? { ...book, discountAmt } : book))
+  return books.map(book => (book.pricePerBook < qualifyingPrice ? { ...book, discount } : book))
 
   //   books.forEach(book => {
   //     if (book && book.pricePerBook > qualifyingPrice) {

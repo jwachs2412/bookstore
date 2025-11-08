@@ -360,20 +360,6 @@ function showDashboard(books: Book[]): void {
           }
         }
       }
-      //   if (dashboardMenuChoice === "1") {
-      //     consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`)
-      //   } else if (dashboardMenuChoice === "2") {
-      //     consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
-      //   } else if (dashboardMenuChoice === "3") {
-      //     consoleLogItem("⚠️  Books low in stock:")
-      //     getLowStockBooks.forEach(({ title, quantityInStock }) => {
-      //       consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
-      //     })
-      //   } else if (dashboardMenuChoice === "4") {
-      //     avgBookPrice(bookCollection)
-      //   } else {
-      //     return
-      //   }
     } else if (Number(choice) === 2) {
       consoleLogItem("You are now exiting the dashboard...")
       dashboardPrompt = false

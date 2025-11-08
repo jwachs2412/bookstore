@@ -138,8 +138,8 @@ function consoleLogItem(arg, optionalArg) {
     }
 }
 // Generic function being used for filtering items below
-function filterItems(arr, predicate) {
-    return arr.filter(predicate);
+function filterItems(arr, predicate, compOp, numForComparison) {
+    return arr.filter(item => predicate(item, compOp, numForComparison));
 }
 // Generic function as an arrow function
 // const filterItems = <T>(arr: T[], predicate: (item: T) => boolean): T[] => arr.filter(predicate);
@@ -206,7 +206,7 @@ consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2
 function showDashboard(books) {
     let dashboardPrompt = true;
     while (dashboardPrompt) {
-        process.stdout.write("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): \n");
+        process.stdout.write("\nPlease enter a choice: (1 = Show Bookstore Dashboard Menu, 2 = Exit): \n");
         const choice = prompt("");
         consoleLogItem(`You chose: ${choice}`);
         if (Number(choice) === 1) {
@@ -216,7 +216,7 @@ function showDashboard(books) {
             consoleLogItem("         📊 BOOKSTORE DASHBOARD\n");
             consoleLogItem("========================================\n");
             while (dashboardMenu) {
-                process.stdout.write("What would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Exit): \n");
+                process.stdout.write("\nWhat would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Filter By Price 6. Exit): \n");
                 const dashboardMenuChoice = prompt("");
                 let booksInStock = 0;
                 books.forEach(({ quantityInStock }) => {
@@ -245,7 +245,34 @@ function showDashboard(books) {
                         break;
                     }
                     case "5": {
-                        console.log("Exiting the Bookstore Dashboard");
+                        consoleLogItem("Filter By Price:");
+                        let operandString = "";
+                        const priceToFilter = prompt("Enter a number for your price comparison: ");
+                        process.stdout.write("What comparison do you want to make? Please enter one of the following symbols: (greater than: >, less than: <, equal to: ===, not equal to: !==)\n");
+                        const compOp = prompt("");
+                        const priceUsed = filterItems(bookCollection, item => {
+                            switch (compOp) {
+                                case ">":
+                                    operandString = "greater than";
+                                    return item.pricePerBook > Number(priceToFilter);
+                                case "<":
+                                    operandString = "less than";
+                                    return item.pricePerBook < Number(priceToFilter);
+                                case "===":
+                                    operandString = "equal to";
+                                    return item.pricePerBook === Number(priceToFilter);
+                                case "!==":
+                                    operandString = "not equal to";
+                                    return item.pricePerBook !== Number(priceToFilter);
+                                default:
+                                    return false;
+                            }
+                        });
+                        consoleLogItem(`\nBooks ${operandString} $${priceToFilter}:\n`, priceUsed);
+                        break;
+                    }
+                    case "6": {
+                        console.log("Exiting the Bookstore Dashboard Menu");
                         dashboardMenu = false;
                         break;
                     }

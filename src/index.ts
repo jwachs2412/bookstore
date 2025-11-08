@@ -186,8 +186,8 @@ function consoleLogItem<T, U = unknown>(arg: T, optionalArg?: U): void {
 }
 
 // Generic function being used for filtering items below
-function filterItems<T>(arr: T[], predicate: (item: T) => boolean): T[] {
-  return arr.filter(predicate)
+function filterItems<T>(arr: T[], predicate: (item: T, compOp?: string, numForComparison?: number) => boolean, compOp?: string, numForComparison?: number): T[] {
+  return arr.filter(item => predicate(item, compOp, numForComparison))
 }
 // Generic function as an arrow function
 // const filterItems = <T>(arr: T[], predicate: (item: T) => boolean): T[] => arr.filter(predicate);
@@ -280,7 +280,7 @@ function showDashboard(books: Book[]): void {
     consoleLogItem(`You chose: ${choice}`)
 
     if (Number(choice) === 1) {
-      let dashboardMenu = true
+      let dashboardMenu: boolean = true
 
       consoleLogItem("You are now being shown the dashboard...\n")
       consoleLogItem("========================================\n")
@@ -288,7 +288,7 @@ function showDashboard(books: Book[]): void {
       consoleLogItem("========================================\n")
 
       while (dashboardMenu) {
-        process.stdout.write("\nWhat would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Exit): \n")
+        process.stdout.write("\nWhat would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Filter By Price 6. Exit): \n")
         const dashboardMenuChoice: string = prompt("")
 
         let booksInStock: number = 0
@@ -320,7 +320,35 @@ function showDashboard(books: Book[]): void {
             break
           }
           case "5": {
-            console.log("Exiting the Bookstore Dashboard")
+            consoleLogItem("Filter By Price:")
+            type CompOp = ">" | "<" | "===" | "!=="
+            let operandString: string = ""
+            const priceToFilter: string = prompt("Enter a number for your price comparison: ")
+            process.stdout.write("What comparison do you want to make? Please enter one of the following symbols: (greater than: >, less than: <, equal to: ===, not equal to: !==)\n")
+            const compOp: CompOp = prompt("") as CompOp
+            const priceUsed = filterItems<Book>(bookCollection, item => {
+              switch (compOp) {
+                case ">":
+                  operandString = "greater than"
+                  return item.pricePerBook > Number(priceToFilter)
+                case "<":
+                  operandString = "less than"
+                  return item.pricePerBook < Number(priceToFilter)
+                case "===":
+                  operandString = "equal to"
+                  return item.pricePerBook === Number(priceToFilter)
+                case "!==":
+                  operandString = "not equal to"
+                  return item.pricePerBook !== Number(priceToFilter)
+                default:
+                  return false
+              }
+            })
+            consoleLogItem(`\nBooks ${operandString} $${priceToFilter}:\n`, priceUsed)
+            break
+          }
+          case "6": {
+            console.log("Exiting the Bookstore Dashboard Menu")
             dashboardMenu = false
             break
           }

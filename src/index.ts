@@ -273,40 +273,73 @@ consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2
 // Show Dashboard or Exit
 function showDashboard(books: Book[]): void {
   let dashboardPrompt: boolean = true
-  const choice: string = prompt("\nPlease enter a choice: (1 = Show Bookstore Dashboard, 2 = Exit): ")
-  consoleLogItem(`You chose: ${choice}`)
 
   while (dashboardPrompt) {
-    let booksInStock: number = 0
+    process.stdout.write("\nPlease enter a choice: (1 = Show Bookstore Dashboard Menu, 2 = Exit): \n")
+    const choice: string = prompt("")
+    consoleLogItem(`You chose: ${choice}`)
 
     if (Number(choice) === 1) {
+      let dashboardMenu = true
+
       consoleLogItem("You are now being shown the dashboard...\n")
       consoleLogItem("========================================\n")
       consoleLogItem("         📊 BOOKSTORE DASHBOARD\n")
       consoleLogItem("========================================\n")
 
-      books.forEach(({ quantityInStock }) => {
-        if (quantityInStock > 0) {
-          booksInStock += 1
-        }
-      })
+      while (dashboardMenu) {
+        process.stdout.write("\nWhat would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Exit): \n")
+        const dashboardMenuChoice: string = prompt("")
 
-      const dashboardMenuChoice = prompt("What would you like to view (enter the corresponding number)? (1. Total Titles in Stock 2. Total Inventory Value 3. Books Low in Stock 4. Average Book Price 5. Exit): \n")
+        let booksInStock: number = 0
 
-      if (dashboardMenuChoice === "1") {
-        consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`)
-      } else if (dashboardMenuChoice === "2") {
-        consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
-      } else if (dashboardMenuChoice === "3") {
-        consoleLogItem("⚠️  Books low in stock:")
-        getLowStockBooks.forEach(({ title, quantityInStock }) => {
-          consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
+        books.forEach(({ quantityInStock }) => {
+          if (quantityInStock > 0) {
+            booksInStock += 1
+          }
         })
-      } else if (dashboardMenuChoice === "4") {
-        avgBookPrice(bookCollection)
-      } else {
-        return
+
+        switch (dashboardMenuChoice) {
+          case "1": {
+            consoleLogItem(`\n📚 Total titles in stock: ${booksInStock}\n`)
+            break
+          }
+          case "2": {
+            consoleLogItem(`\n💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
+            break
+          }
+          case "3": {
+            consoleLogItem("\n⚠️  Books low in stock:")
+            getLowStockBooks.forEach(({ title, quantityInStock }) => {
+              consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
+            })
+            break
+          }
+          case "4": {
+            avgBookPrice(bookCollection)
+            break
+          }
+          case "5": {
+            console.log("Exiting the Bookstore Dashboard")
+            dashboardMenu = false
+            break
+          }
+        }
       }
+      //   if (dashboardMenuChoice === "1") {
+      //     consoleLogItem(`📚 Total titles in stock: ${booksInStock}\n`)
+      //   } else if (dashboardMenuChoice === "2") {
+      //     consoleLogItem(`💰 Total inventory value: $${totalValue(bookCollection).toFixed(2)}\n`)
+      //   } else if (dashboardMenuChoice === "3") {
+      //     consoleLogItem("⚠️  Books low in stock:")
+      //     getLowStockBooks.forEach(({ title, quantityInStock }) => {
+      //       consoleLogItem(`"${title}" -- only ${quantityInStock} left in stock!`)
+      //     })
+      //   } else if (dashboardMenuChoice === "4") {
+      //     avgBookPrice(bookCollection)
+      //   } else {
+      //     return
+      //   }
     } else if (Number(choice) === 2) {
       consoleLogItem("You are now exiting the dashboard...")
       dashboardPrompt = false

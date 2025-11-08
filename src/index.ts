@@ -352,6 +352,7 @@ function showDashboard(books: Book[]): void {
           }
           case "6": {
             consoleLogItem("\nBooks out of stock:\n", booksOutOfStock)
+            break
           }
           case "7": {
             console.log("Exiting the Bookstore Dashboard Menu")

@@ -155,6 +155,31 @@ consoleLogItem("\nBooks over $20:\n", booksOverTwenty);
 // Books out of Stock
 const booksOutOfStock = filterItems(bookCollection, item => item.quantityInStock == 0);
 consoleLogItem("\nBooks out of stock:\n", booksOutOfStock);
+function filterByPrice() {
+    let operandString = "";
+    const priceToFilter = prompt("Enter a number for your price comparison: ");
+    process.stdout.write("What comparison do you want to make? Please enter one of the following symbols: (greater than: >, less than: <, equal to: ===, not equal to: !==)\n");
+    const compOp = prompt("");
+    const priceUsed = filterItems(bookCollection, item => {
+        switch (compOp) {
+            case ">":
+                operandString = "greater than";
+                return item.pricePerBook > Number(priceToFilter);
+            case "<":
+                operandString = "less than";
+                return item.pricePerBook < Number(priceToFilter);
+            case "===":
+                operandString = "equal to";
+                return item.pricePerBook === Number(priceToFilter);
+            case "!==":
+                operandString = "not equal to";
+                return item.pricePerBook !== Number(priceToFilter);
+            default:
+                return false;
+        }
+    });
+    consoleLogItem(`\nBooks ${operandString} $${priceToFilter}:\n`, priceUsed);
+}
 // Return last book in list
 function lastEl(el) {
     if (el.length === 0) {
@@ -246,29 +271,7 @@ function showDashboard(books) {
                     }
                     case "5": {
                         consoleLogItem("Filter By Price:");
-                        let operandString = "";
-                        const priceToFilter = prompt("Enter a number for your price comparison: ");
-                        process.stdout.write("What comparison do you want to make? Please enter one of the following symbols: (greater than: >, less than: <, equal to: ===, not equal to: !==)\n");
-                        const compOp = prompt("");
-                        const priceUsed = filterItems(bookCollection, item => {
-                            switch (compOp) {
-                                case ">":
-                                    operandString = "greater than";
-                                    return item.pricePerBook > Number(priceToFilter);
-                                case "<":
-                                    operandString = "less than";
-                                    return item.pricePerBook < Number(priceToFilter);
-                                case "===":
-                                    operandString = "equal to";
-                                    return item.pricePerBook === Number(priceToFilter);
-                                case "!==":
-                                    operandString = "not equal to";
-                                    return item.pricePerBook !== Number(priceToFilter);
-                                default:
-                                    return false;
-                            }
-                        });
-                        consoleLogItem(`\nBooks ${operandString} $${priceToFilter}:\n`, priceUsed);
+                        filterByPrice();
                         break;
                     }
                     case "6": {

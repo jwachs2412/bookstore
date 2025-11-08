@@ -207,6 +207,33 @@ consoleLogItem("\nBooks over $20:\n", booksOverTwenty)
 const booksOutOfStock = filterItems<Book>(bookCollection, item => item.quantityInStock == 0)
 consoleLogItem("\nBooks out of stock:\n", booksOutOfStock)
 
+function filterByPrice(): void {
+  type CompOp = ">" | "<" | "===" | "!=="
+  let operandString: string = ""
+  const priceToFilter: string = prompt("Enter a number for your price comparison: ")
+  process.stdout.write("What comparison do you want to make? Please enter one of the following symbols: (greater than: >, less than: <, equal to: ===, not equal to: !==)\n")
+  const compOp: CompOp = prompt("") as CompOp
+  const priceUsed = filterItems<Book>(bookCollection, item => {
+    switch (compOp) {
+      case ">":
+        operandString = "greater than"
+        return item.pricePerBook > Number(priceToFilter)
+      case "<":
+        operandString = "less than"
+        return item.pricePerBook < Number(priceToFilter)
+      case "===":
+        operandString = "equal to"
+        return item.pricePerBook === Number(priceToFilter)
+      case "!==":
+        operandString = "not equal to"
+        return item.pricePerBook !== Number(priceToFilter)
+      default:
+        return false
+    }
+  })
+  consoleLogItem(`\nBooks ${operandString} $${priceToFilter}:\n`, priceUsed)
+}
+
 // Return last book in list
 function lastEl<T>(el: Array<T>): T | undefined {
   if (el.length === 0) {
@@ -321,30 +348,7 @@ function showDashboard(books: Book[]): void {
           }
           case "5": {
             consoleLogItem("Filter By Price:")
-            type CompOp = ">" | "<" | "===" | "!=="
-            let operandString: string = ""
-            const priceToFilter: string = prompt("Enter a number for your price comparison: ")
-            process.stdout.write("What comparison do you want to make? Please enter one of the following symbols: (greater than: >, less than: <, equal to: ===, not equal to: !==)\n")
-            const compOp: CompOp = prompt("") as CompOp
-            const priceUsed = filterItems<Book>(bookCollection, item => {
-              switch (compOp) {
-                case ">":
-                  operandString = "greater than"
-                  return item.pricePerBook > Number(priceToFilter)
-                case "<":
-                  operandString = "less than"
-                  return item.pricePerBook < Number(priceToFilter)
-                case "===":
-                  operandString = "equal to"
-                  return item.pricePerBook === Number(priceToFilter)
-                case "!==":
-                  operandString = "not equal to"
-                  return item.pricePerBook !== Number(priceToFilter)
-                default:
-                  return false
-              }
-            })
-            consoleLogItem(`\nBooks ${operandString} $${priceToFilter}:\n`, priceUsed)
+            filterByPrice()
             break
           }
           case "6": {

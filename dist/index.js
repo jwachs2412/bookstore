@@ -102,9 +102,9 @@ function restockBook(books, bookToFind, quantityToAdd) {
     //   }
     //   return books
 }
-consoleLogItem("\nBook collection after restock:");
-consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
-consoleLogItem(restockBook(bookCollection, "Hello World", 8));
+// consoleLogItem("\nBook collection after restock:")
+// consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5))
+// consoleLogItem(restockBook(bookCollection, "Hello World", 8))
 // Function for a MarkDown Sale
 function markDownSale(books, qualifyingPrice, discount) {
     //   let markedDownBooks: Book[] = []
@@ -124,10 +124,10 @@ function markDownSale(books, qualifyingPrice, discount) {
     //   })
     //   return markedDownBooks
 }
-consoleLogItem("\nBooks Marked Down for Sale if under $30:");
-consoleLogItem(markDownSale(bookCollection, 30, 0.2));
-consoleLogItem("\nBooks Marked Down for Sale if under $18:");
-consoleLogItem(markDownSale(bookCollection, 18, 0.25));
+// consoleLogItem("\nBooks Marked Down for Sale if under $30:")
+// consoleLogItem(markDownSale(bookCollection, 30, 0.2))
+// consoleLogItem("\nBooks Marked Down for Sale if under $18:")
+// consoleLogItem(markDownSale(bookCollection, 18, 0.25))
 // Generic function for console.log()
 function consoleLogItem(arg, optionalArg) {
     if (optionalArg !== undefined) {
@@ -226,6 +226,37 @@ consoleLogItem("Ascending Sort by Stock using Generic Function (sortBy): \n");
 consoleLogItem(sortByStockUsingGenericFunction2);
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`);
+function handleBookAction(books, action) {
+    switch (action.type) {
+        case "restock book": {
+            consoleLogItem("\nBook collection after restock:");
+            consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
+            consoleLogItem(restockBook(bookCollection, "Hello World", 8));
+            break;
+        }
+        case "markdown sale": {
+            consoleLogItem("\nBooks Marked Down for Sale if under $30:");
+            consoleLogItem(markDownSale(bookCollection, 30, 0.2));
+            consoleLogItem("\nBooks Marked Down for Sale if under $18:");
+            consoleLogItem(markDownSale(bookCollection, 18, 0.25));
+            break;
+        }
+        case "remove book": {
+            books.forEach(({ title }, idx) => {
+                console.log(`${idx + 1}: ${title}`);
+            });
+            process.stdout.write("\nWhich book title would you like to remove. Please enter the corresponding number from the list above: ");
+            const choice = Number(prompt(""));
+            const bookToRemove = books.splice(choice + 1, 1);
+            consoleLogItem(`Removing book: ${bookToRemove}.`);
+            consoleLogItem(books);
+            break;
+        }
+    }
+}
+// bookCollection.forEach(({ title }, idx) => {
+//   console.log(`${idx + 1}: ${title}`)
+// })
 // Show Dashboard or Exit
 function showDashboard(books) {
     let dashboardPrompt = true;
@@ -240,7 +271,7 @@ function showDashboard(books) {
             consoleLogItem("         📊 BOOKSTORE DASHBOARD\n");
             consoleLogItem("========================================\n");
             while (dashboardMenu) {
-                process.stdout.write("\nWhat would you like to view (enter the corresponding number)? \n1. Total Titles in Stock \n2. Total Inventory Value \n3. Books Low in Stock \n4. Average Book Price \n5. Filter By Price \n6. Books Out of Stock \n7. Exit\nYour Choice: ");
+                process.stdout.write("\nWhat would you like to view (enter the corresponding number)? \n1. Total Titles in Stock \n2. Total Inventory Value \n3. Books Low in Stock \n4. Average Book Price \n5. Filter By Price \n6. Books Out of Stock \n7. Book Action \n8. Exit\nYour Choice: ");
                 const dashboardMenuChoice = prompt("");
                 let booksInStock = 0;
                 books.forEach(({ quantityInStock }) => {
@@ -278,6 +309,12 @@ function showDashboard(books) {
                         break;
                     }
                     case "7": {
+                        process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): ");
+                        const bookActionToTake = prompt("");
+                        // handleBookAction(bookCollection, bookActionToTake)
+                        break;
+                    }
+                    case "8": {
                         console.log("Exiting the Bookstore Dashboard Menu");
                         dashboardMenu = false;
                         break;

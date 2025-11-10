@@ -230,15 +230,15 @@ function handleBookAction(books, action) {
     switch (action.type) {
         case "restock book": {
             consoleLogItem("\nBook collection after restock:");
-            consoleLogItem(restockBook(bookCollection, "Programming TypeScript", 5));
-            consoleLogItem(restockBook(bookCollection, "Hello World", 8));
+            consoleLogItem(restockBook(bookCollection, action.title, action.quantity));
+            //   consoleLogItem(restockBook(bookCollection, "Hello World", 8))
             break;
         }
         case "markdown sale": {
-            consoleLogItem("\nBooks Marked Down for Sale if under $30:");
-            consoleLogItem(markDownSale(bookCollection, 30, 0.2));
-            consoleLogItem("\nBooks Marked Down for Sale if under $18:");
-            consoleLogItem(markDownSale(bookCollection, 18, 0.25));
+            consoleLogItem(`\nBooks Marked Down for Sale if under $${action.price}:`);
+            consoleLogItem(markDownSale(bookCollection, action.price, action.discount));
+            //   consoleLogItem("\nBooks Marked Down for Sale if under $18:")
+            //   consoleLogItem(markDownSale(bookCollection, 18, 0.25))
             break;
         }
         case "remove book": {
@@ -247,9 +247,14 @@ function handleBookAction(books, action) {
             });
             process.stdout.write("\nWhich book title would you like to remove. Please enter the corresponding number from the list above: ");
             const choice = Number(prompt(""));
-            const bookToRemove = books.splice(choice + 1, 1);
-            consoleLogItem(`Removing book: ${bookToRemove}.`);
-            consoleLogItem(books);
+            if (choice <= books.length) {
+                const bookToRemove = books.splice(choice + 1, 1);
+                consoleLogItem(`Removing book: ${bookToRemove}.`);
+                consoleLogItem(books);
+            }
+            else {
+                consoleLogItem("You chose a number higher than the number of books in the list...");
+            }
             break;
         }
     }
@@ -310,8 +315,33 @@ function showDashboard(books) {
                     }
                     case "7": {
                         process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): ");
-                        const bookActionToTake = prompt("");
-                        // handleBookAction(bookCollection, bookActionToTake)
+                        // const bookActionToTake: string = prompt("").toLowerCase()
+                        // if (bookActionToTake === "restock book" || bookActionToTake === "markdown sale" || bookActionToTake === "remove book") {
+                        //   handleBookAction(bookCollection, bookActionToTake)
+                        // } else {
+                        //   consoleLogItem("You made an invalid choice!")
+                        // }
+                        const bookActionToTakeInput = prompt("").toLowerCase();
+                        if (bookActionToTakeInput === "restock book") {
+                            process.stdout.write("Enter the title to restock: ");
+                            const title = prompt("");
+                            process.stdout.write("Enter quantity to add: ");
+                            const quantity = Number(prompt(""));
+                            handleBookAction(bookCollection, { type: "restock book", title, quantity });
+                        }
+                        else if (bookActionToTakeInput === "markdown sale") {
+                            process.stdout.write("Enter the maximum price for the markdown sale (the value entered will not be included): ");
+                            const price = Number(prompt(""));
+                            process.stdout.write("Enter discount as decimal (e.g., 0.2 for 20%): ");
+                            const discount = Number(prompt(""));
+                            handleBookAction(bookCollection, { type: "markdown sale", price, discount });
+                        }
+                        else if (bookActionToTakeInput === "remove book") {
+                            handleBookAction(bookCollection, { type: "remove book", title: "" });
+                        }
+                        else {
+                            consoleLogItem("You made an invalid choice!");
+                        }
                         break;
                     }
                     case "8": {

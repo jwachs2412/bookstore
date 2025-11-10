@@ -413,11 +413,11 @@ function showDashboard(books: Book[]): void {
               const quantity = Number(prompt(""))
               handleBookAction(bookCollection, { type: "restock book", title, quantity })
             } else if (bookActionToTakeInput === "markdown sale") {
-              process.stdout.write("Enter the title to apply markdown to (or press Enter to apply to qualifying items): ")
-              const title = prompt("")
+              process.stdout.write("Enter the maximum price for the markdown sale (the value entered will not be included): ")
+              const price = Number(prompt(""))
               process.stdout.write("Enter discount as decimal (e.g., 0.2 for 20%): ")
               const discount = Number(prompt(""))
-              handleBookAction(bookCollection, { type: "markdown sale", title, discount })
+              handleBookAction(bookCollection, { type: "markdown sale", price, discount })
             } else if (bookActionToTakeInput === "remove book") {
               handleBookAction(bookCollection, { type: "remove book", title: "" })
             } else {

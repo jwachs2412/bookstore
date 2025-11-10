@@ -285,7 +285,7 @@ consoleLogItem(sortByPriceUsingGenericFunction)
 
 //   ascending === true ? newBooksArray.sort((stockA, stockB) => stockA.quantityInStock - stockB.quantityInStock) : newBooksArray.sort((stockA, stockB) => stockB.quantityInStock - stockA.quantityInStock)
 
-//   return newBooksArray
+//   return newBooksArrfay
 // }
 // consoleLogItem("\nSorted by Stock (Ascending):\n", sortByStock(bookCollection, true))
 // consoleLogItem("\nSorted by Stock (Descending):\n", sortByStock(bookCollection, false))
@@ -312,6 +312,29 @@ if (bookPriceToView) {
     consoleLogItem(`\nThe book, "${bookPriceToView.title}", is priced at $${getProp(bookPriceToView, "pricePerBook").toFixed(2)}.`)
   }
 }
+
+type InventorySummary = {
+  [category: string]: number
+}
+
+function summarizeInventory(books: Book[]): InventorySummary {
+  let totalBooks = 0
+  let totalValue = 0
+
+  for (const currentbook of books) {
+    totalBooks += currentbook.quantityInStock
+    totalValue += getBookTotal(currentbook).total
+  }
+
+  const avgPriceForBook = totalValue / totalBooks
+
+  return {
+    totalBooks,
+    totalValueOfBooks: Number(totalValue.toFixed(2)),
+    avgBookPrice: Number(avgPriceForBook.toFixed(2))
+  }
+}
+consoleLogItem(summarizeInventory(bookCollection))
 
 // Book action to take; found in dashboard
 type BookAction = { type: "restock book"; title: string; quantity: number } | { type: "markdown sale"; price: number; discount: number } | { type: "remove book" }

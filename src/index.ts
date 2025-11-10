@@ -318,14 +318,16 @@ function handleBookAction(books: Book[], action: BookAction): Book[] | void {
       books.forEach(({ title }, idx) => {
         console.log(`${idx + 1}: ${title}`)
       })
-      process.stdout.write("\nWhich book title would you like to remove. Please enter the corresponding number from the list above: ")
+      process.stdout.write("\nWhich book title would you like to remove. Please enter the corresponding number from the list above: \n")
       const choice: number = Number(prompt(""))
       if (choice <= books.length) {
-        const bookToRemove = books.splice(choice + 1, 1)
-        consoleLogItem(`Removing book: ${bookToRemove}.`)
-        consoleLogItem(books)
+        const bookToRemove = books.splice(choice - 1, 1)
+        consoleLogItem(`Removing book: ${choice}.`)
+        consoleLogItem(bookToRemove)
+        consoleLogItem("Book collection after book removed: \n")
+        consoleLogItem(bookCollection)
       } else {
-        consoleLogItem("You chose a number higher than the number of books in the list...")
+        consoleLogItem("You chose a number higher than the number of books in the list...\n")
       }
       break
     }
@@ -354,7 +356,7 @@ function showDashboard(books: Book[]): void {
       consoleLogItem("========================================\n")
 
       while (dashboardMenu) {
-        process.stdout.write("\nWhat would you like to view (enter the corresponding number)? \n1. Total Titles in Stock \n2. Total Inventory Value \n3. Books Low in Stock \n4. Average Book Price \n5. Filter By Price \n6. Books Out of Stock \n7. Book Action \n8. Exit\nYour Choice: ")
+        process.stdout.write("\nWhat would you like to view (enter the corresponding number)? \n1. Total Titles in Stock \n2. Total Inventory Value \n3. Books Low in Stock \n4. Average Book Price \n5. Filter By Price \n6. Books Out of Stock \n7. Book Action \n8. Exit\nYour Choice: \n")
         const dashboardMenuChoice: string = prompt("")
 
         let booksInStock: number = 0
@@ -395,26 +397,26 @@ function showDashboard(books: Book[]): void {
             break
           }
           case "7": {
-            process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): ")
+            process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): \n")
 
             const bookActionToTakeInput: string = prompt("").toLowerCase()
 
             if (bookActionToTakeInput === "restock book") {
-              process.stdout.write("Enter the title to restock: ")
+              process.stdout.write("Enter the title to restock: \n")
               const title: string = prompt("")
-              process.stdout.write("Enter quantity to add: ")
+              process.stdout.write("Enter quantity to add: \n")
               const quantity: number = Number(prompt(""))
               handleBookAction(bookCollection, { type: "restock book", title, quantity })
             } else if (bookActionToTakeInput === "markdown sale") {
-              process.stdout.write("Enter the maximum price for the markdown sale (the value entered will not be included): ")
+              process.stdout.write("Enter the maximum price for the markdown sale (the value entered will not be included): \n")
               const price: number = Number(prompt(""))
-              process.stdout.write("Enter discount as decimal (e.g., 0.2 for 20%): ")
+              process.stdout.write("Enter discount as decimal (e.g., 0.2 for 20%): \n")
               const discount: number = Number(prompt(""))
               handleBookAction(bookCollection, { type: "markdown sale", price, discount })
             } else if (bookActionToTakeInput === "remove book") {
               handleBookAction(bookCollection, { type: "remove book" })
             } else {
-              consoleLogItem("You made an invalid choice!")
+              consoleLogItem("You made an invalid choice!\n")
             }
             break
           }

@@ -128,6 +128,10 @@ function markDownSale(books, qualifyingPrice, discount) {
 // consoleLogItem(markDownSale(bookCollection, 30, 0.2))
 // consoleLogItem("\nBooks Marked Down for Sale if under $18:")
 // consoleLogItem(markDownSale(bookCollection, 18, 0.25))
+// Generic function that allows user to safely access a property from an object
+function getProp(obj, key) {
+    return obj[key];
+}
 // Generic function for console.log()
 function consoleLogItem(arg, optionalArg) {
     if (optionalArg !== undefined) {
@@ -137,10 +141,6 @@ function consoleLogItem(arg, optionalArg) {
         console.log(arg);
     }
 }
-function getProp(obj, key) {
-    return obj[key];
-}
-consoleLogItem(getProp(bookCollection, 2));
 // Generic function being used for filtering items below
 function filterItems(arr, predicate, compOp, numForComparison) {
     return arr.filter(item => predicate(item, compOp, numForComparison));
@@ -230,6 +230,11 @@ consoleLogItem("Ascending Sort by Stock using Generic Function (sortBy): \n");
 consoleLogItem(sortByStockUsingGenericFunction2);
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`);
+// Using the getProp generic function
+const bookPriceToView = bookCollection[0];
+if (bookPriceToView) {
+    consoleLogItem(`\nThe book, ${bookPriceToView.title}, is priced at ${getProp(bookPriceToView, "pricePerBook")} before discount.`);
+}
 function handleBookAction(books, action) {
     switch (action.type) {
         case "restock book": {
@@ -253,8 +258,7 @@ function handleBookAction(books, action) {
             const choice = Number(prompt(""));
             if (choice <= books.length) {
                 const bookToRemove = books.splice(choice - 1, 1);
-                consoleLogItem(`Removing book: ${choice}.`);
-                consoleLogItem(bookToRemove);
+                consoleLogItem(`Removing book: ${bookToRemove[0]?.title}.`);
                 consoleLogItem("Book collection after book removed: \n");
                 consoleLogItem(bookCollection);
             }

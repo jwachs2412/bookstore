@@ -315,12 +315,6 @@ function showDashboard(books) {
                     }
                     case "7": {
                         process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): ");
-                        // const bookActionToTake: string = prompt("").toLowerCase()
-                        // if (bookActionToTake === "restock book" || bookActionToTake === "markdown sale" || bookActionToTake === "remove book") {
-                        //   handleBookAction(bookCollection, bookActionToTake)
-                        // } else {
-                        //   consoleLogItem("You made an invalid choice!")
-                        // }
                         const bookActionToTakeInput = prompt("").toLowerCase();
                         if (bookActionToTakeInput === "restock book") {
                             process.stdout.write("Enter the title to restock: ");
@@ -337,7 +331,7 @@ function showDashboard(books) {
                             handleBookAction(bookCollection, { type: "markdown sale", price, discount });
                         }
                         else if (bookActionToTakeInput === "remove book") {
-                            handleBookAction(bookCollection, { type: "remove book", title: "" });
+                            handleBookAction(bookCollection, { type: "remove book" });
                         }
                         else {
                             consoleLogItem("You made an invalid choice!");

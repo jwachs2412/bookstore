@@ -297,7 +297,7 @@ consoleLogItem(sortByStockUsingGenericFunction2)
 // consoleLogItem((636.4375 + 1153.35 + 35.91 + 0 + 979.209 + 40.7745).toFixed(2));
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`)
 
-type BookAction = { type: "restock book"; title: string; quantity: number } | { type: "markdown sale"; price: number; discount: number } | { type: "remove book"; title: string }
+type BookAction = { type: "restock book"; title: string; quantity: number } | { type: "markdown sale"; price: number; discount: number } | { type: "remove book" }
 
 function handleBookAction(books: Book[], action: BookAction): Book[] | void {
   switch (action.type) {
@@ -396,30 +396,23 @@ function showDashboard(books: Book[]): void {
           }
           case "7": {
             process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): ")
-            // const bookActionToTake: string = prompt("").toLowerCase()
-
-            // if (bookActionToTake === "restock book" || bookActionToTake === "markdown sale" || bookActionToTake === "remove book") {
-            //   handleBookAction(bookCollection, bookActionToTake)
-            // } else {
-            //   consoleLogItem("You made an invalid choice!")
-            // }
 
             const bookActionToTakeInput: string = prompt("").toLowerCase()
 
             if (bookActionToTakeInput === "restock book") {
               process.stdout.write("Enter the title to restock: ")
-              const title = prompt("")
+              const title: string = prompt("")
               process.stdout.write("Enter quantity to add: ")
-              const quantity = Number(prompt(""))
+              const quantity: number = Number(prompt(""))
               handleBookAction(bookCollection, { type: "restock book", title, quantity })
             } else if (bookActionToTakeInput === "markdown sale") {
               process.stdout.write("Enter the maximum price for the markdown sale (the value entered will not be included): ")
-              const price = Number(prompt(""))
+              const price: number = Number(prompt(""))
               process.stdout.write("Enter discount as decimal (e.g., 0.2 for 20%): ")
-              const discount = Number(prompt(""))
+              const discount: number = Number(prompt(""))
               handleBookAction(bookCollection, { type: "markdown sale", price, discount })
             } else if (bookActionToTakeInput === "remove book") {
-              handleBookAction(bookCollection, { type: "remove book", title: "" })
+              handleBookAction(bookCollection, { type: "remove book" })
             } else {
               consoleLogItem("You made an invalid choice!")
             }

@@ -271,7 +271,7 @@ consoleLogItem("Descending Sort by Price using Generic Function (sortBy): \n")
 consoleLogItem(sortByPriceUsingGenericFunction2)
 
 const sortByPriceUsingGenericFunction = sortBy<Book>(bookCollection, "pricePerBook", true)
-consoleLogItem("Asending Sort by Price using Generic Function (sortBy): \n")
+consoleLogItem("Ascending Sort by Price using Generic Function (sortBy): \n")
 consoleLogItem(sortByPriceUsingGenericFunction)
 
 // Sort by Stock
@@ -399,7 +399,7 @@ function showDashboard(books: Book[]): void {
           case "7": {
             process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): \n")
 
-            const bookActionToTakeInput: string = prompt("").toLowerCase()
+            const bookActionToTakeInput: string = prompt("").trim().toLowerCase()
 
             if (bookActionToTakeInput === "restock book") {
               process.stdout.write("Enter the title to restock: \n")

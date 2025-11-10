@@ -303,9 +303,14 @@ consoleLogItem(sortByStockUsingGenericFunction2)
 consoleLogItem(`\nTotal inventory value: $${totalValue(bookCollection).toFixed(2)}`)
 
 // Using the getProp generic function
-const bookPriceToView = bookCollection[0]
+const bookPriceToView = bookCollection[1]
 if (bookPriceToView) {
-  consoleLogItem(`\nThe book, ${bookPriceToView.title}, is priced at ${getProp(bookPriceToView, "pricePerBook")} before discount.`)
+  if (bookPriceToView.discount) {
+    const bookPriceAfterDiscount = bookPriceToView.pricePerBook * (1 - bookPriceToView.discount)
+    consoleLogItem(`\nThe book, "${bookPriceToView.title}", has a retail price of $${getProp(bookPriceToView, "pricePerBook").toFixed(2)}. With the discount the book costs $${bookPriceAfterDiscount.toFixed(2)}.`)
+  } else {
+    consoleLogItem(`\nThe book, "${bookPriceToView.title}", is priced at $${getProp(bookPriceToView, "pricePerBook").toFixed(2)}.`)
+  }
 }
 
 // Book action to take; found in dashboard

@@ -186,6 +186,11 @@ function consoleLogItem<T, U = unknown>(arg: T, optionalArg?: U): void {
   }
 }
 
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key]
+}
+consoleLogItem(getProp(bookCollection, 2))
+
 // Generic function being used for filtering items below
 function filterItems<T>(arr: T[], predicate: (item: T, compOp?: string, numForComparison?: number) => boolean, compOp?: string, numForComparison?: number): T[] {
   return arr.filter(item => predicate(item, compOp, numForComparison))

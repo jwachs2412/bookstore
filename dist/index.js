@@ -137,6 +137,10 @@ function consoleLogItem(arg, optionalArg) {
         console.log(arg);
     }
 }
+function getProp(obj, key) {
+    return obj[key];
+}
+consoleLogItem(getProp(bookCollection, 2));
 // Generic function being used for filtering items below
 function filterItems(arr, predicate, compOp, numForComparison) {
     return arr.filter(item => predicate(item, compOp, numForComparison));
@@ -207,7 +211,7 @@ const sortByPriceUsingGenericFunction2 = sortBy(bookCollection, "pricePerBook", 
 consoleLogItem("Descending Sort by Price using Generic Function (sortBy): \n");
 consoleLogItem(sortByPriceUsingGenericFunction2);
 const sortByPriceUsingGenericFunction = sortBy(bookCollection, "pricePerBook", true);
-consoleLogItem("Asending Sort by Price using Generic Function (sortBy): \n");
+consoleLogItem("Ascending Sort by Price using Generic Function (sortBy): \n");
 consoleLogItem(sortByPriceUsingGenericFunction);
 // Sort by Stock
 // function sortByStock(books: Book[], ascending: boolean): Book[] {
@@ -317,7 +321,7 @@ function showDashboard(books) {
                     }
                     case "7": {
                         process.stdout.write("What action would you like to take? ('restock book', 'markdown sale', 'remove book'): \n");
-                        const bookActionToTakeInput = prompt("").toLowerCase();
+                        const bookActionToTakeInput = prompt("").trim().toLowerCase();
                         if (bookActionToTakeInput === "restock book") {
                             process.stdout.write("Enter the title to restock: \n");
                             const title = prompt("");

@@ -186,6 +186,7 @@ function consoleLogItem<T, U = unknown>(arg: T, optionalArg?: U): void {
   }
 }
 
+// Generic function that allows user to safely access a property from an object
 function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
   return obj[key]
 }
